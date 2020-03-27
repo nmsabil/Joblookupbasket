@@ -48,7 +48,7 @@
                     class="form-control"
                     id="email"
                     placeholder="Enter you email"
-                    required
+                    
                   />
                   {{ session()->get('emailError') }}
                   {{ csrf_field() }}

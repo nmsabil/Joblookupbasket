@@ -122,16 +122,17 @@ class SubscribeController extends Controller {
                 'last_email_sent' => now()->subDay(1)->toDateTimeString()
             ]);
 
+            $subscribedEmail = session()->get('email');
             session()->forget('jobDescription');
             session()->forget('jobLocation');
-            session()->forget('email');
             session()->forget('name');
+            session()->forget('email');
 
             Mail::to(session()->get('email'))->send(new SendEmailVerification(session()->get('name'), $verificationToken));
 
             // Send email confirmation
 
-            return redirect()->to('/subscribed');
+            return redirect()->to('/subscribed', ['subscribedEmail' => $subscribedEmail]);
         } else {
             \Log::info(session()->all());
             abort(404);
