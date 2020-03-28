@@ -13,3 +13,5 @@ Route::post('subscribe-email', 'SubscribeController@subscribeEmail');
 Route::get('subscribed', 'SubscribeController@subscribedView');
 
 Route::get('verify-email', 'SubscribeController@verifyEmail');
+
+Route::get('/', 'JobSearchController@jobs');
