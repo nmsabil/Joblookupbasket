@@ -17,7 +17,13 @@ class AdminController extends Controller {
     }
 
     public function showAllUsersView() {
-        $users = Subscriber::where('email_verification_token', '')->get();
+        $users = Subscriber::all();
         return view('admin.show_all_users', ['users' => $users]);
+    }
+
+    public function sendUserJobPrepareView() {
+        // The id of user, and based on id get his keyword and location form database.
+        // Get jobs from api based on those keyword
+        // return to view.
     }
 }

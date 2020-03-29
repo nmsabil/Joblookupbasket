@@ -24,4 +24,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('login', 'AdminController@loginView')->name('admin.login');
     Route::post('login', 'AdminController@login');
     Route::get('show-all-users', 'AdminController@showAllUsersView');
+
+    Route::get('send-user-prepare', 'AdminController@sendUserJobPrepareView');
 });
