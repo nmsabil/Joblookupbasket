@@ -14,7 +14,7 @@ Route::get('subscribed', 'SubscribeController@subscribedView');
 
 Route::get('verify-email', 'SubscribeController@verifyEmail');
 
-Route::get('/', 'JobSearchController@jobs');
+Route::get('/', 'JobSearchController@getJobs');
 
 Route::get('email-template-preview', 'SubscribeController@emailTemplatePreview');
 
@@ -25,5 +25,5 @@ Route::group(['prefix' => 'admin'], function(){
     Route::post('login', 'AdminController@login');
     Route::get('show-all-users', 'AdminController@showAllUsersView');
 
-    Route::get('send-user-prepare', 'AdminController@sendUserJobPrepareView');
+    Route::get('prepare-jobs-for-user/{userId}', 'AdminController@prepareJobsForUserView')->name('prepare.jobs.for.user');
 });

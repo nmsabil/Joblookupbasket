@@ -1,41 +1,24 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 use GuzzleHttp\Client as GuzzleClient;
 
+use App\Classes\JobSearch;
 use Illuminate\Http\Request;
 
 class JobSearchController extends Controller {
-    private $guzzleClient;
-    private $jobDescription;
-    private $location;
-    private $publisher;
-    private $salaryMin;
+    private $jobSearch;
 
-    public function __construct(GuzzleClient $guzzleClient) {
-        $this->guzzleClient = $guzzleClient;
-        $this->jobDescription = request()->get('description');
-        $this->location = request()->get('location');
-        $this->publisher = 1145;
-        $this->baseUri = 'https://uk.whatjobs.com/api/v1/jobs.json';
-        $this->snippet = 'full';
-        $this->page = request()->get('page');
-        $this->salaryMin = 1;
+    public function __construct(JobSearch $jobSearch) {
+        $this->jobSearch = $jobSearch;
+
+        $this->jobSearch->setJobDescription(request()->get('jobDescription'));
+        $this->jobSearch->setJobLocation(request()->get('location'));
+        $this->jobSearch->setSearchType('feed');
+        $this->jobSearch->setJobPage(request()->get('page'));
     }
 
+    public function getJobs() {
 
-    public function jobs() {
-        $uri = $this->baseUri . '?keyword='. $this->jobDescription
-        . '&location='.$this->location . '&snippet='. $this->snippet. '&publisher='. $this->publisher
-        . '&page='. $this->page . '&salary_from='.$this->salaryMin;
-
-        try {
-            $response = $this->guzzleClient->request('GET', $uri);
-        } catch(\Exception $e) {
-            \Log::error($e);
-        }
-
-        $jobs = json_decode($response->getBody()->getContents())->data;
+        $jobs = $this->jobSearch->getJobs();
 
         $page = request()->get('page');
         if($page == null or $page == 1) {

@@ -8,6 +8,6 @@
 
     {{ $user->last_email_sent }}
 
-    <a href="">Send job >></a>
+    <a href="{{ route('prepare.jobs.for.user', $user->id ) }}">Send job >></a>
 
 @endforeach
