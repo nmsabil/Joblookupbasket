@@ -2,10 +2,17 @@
 
 use App\Subscriber;
 use Illuminate\Support\Facades\Auth;
+use App\Classes\JobSearch;
 
 use Illuminate\Http\Request;
 
 class AdminController extends Controller {
+    private $jobSearch;
+
+    public function __construct(JobSearch $jobSearch) {
+        $this->jobSearch = $jobSearch;
+    }
+
     public function loginView() {
         return view('admin.login');
     }
@@ -21,9 +28,14 @@ class AdminController extends Controller {
         return view('admin.show_all_users', ['users' => $users]);
     }
 
-    public function sendUserJobPrepareView() {
-        // The id of user, and based on id get his keyword and location form database.
-        // Get jobs from api based on those keyword
-        // return to view.
+    public function prepareJobsForUserView($userId) {
+        $user = Subscriber::find($userId);
+        $this->jobSearch->setJobDescription($user->job_description);
+        $this->jobSearch->setJobLocation($user->job_location);
+        $this->jobSearch->setUniqueId($user->email);
+
+        $jobs = $this->jobSearch->getJobs();
+
+        return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user]);
     }
 }
