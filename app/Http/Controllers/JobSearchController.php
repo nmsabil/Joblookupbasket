@@ -25,7 +25,11 @@ class JobSearchController extends Controller {
     public function jobs() {
         $uri = $this->baseUri . '?keyword='. $this->jobDescription . '&location='.$this->location . '&snippet='. $this->snippet. '&publisher='. $this->publisher . '&page='. $this->page;
 
-        $response = $this->guzzleClient->request('GET', $uri);
+        try {
+            $response = $this->guzzleClient->request('GET', $uri);
+        } catch(\Exception $e) {
+            \Log::error($e);
+        }
 
         $jobs = json_decode($response->getBody()->getContents())->data;
 

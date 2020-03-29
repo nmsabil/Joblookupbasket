@@ -1,8 +1,8 @@
 @extends('layout')
     @section('content')
         <form method="GET" action="/">
-            <input name="description"> <br>
-            <input name="location">
+            <input name="description" value="{{request()->get('description') }}"> <br>
+            <input name="location" value="{{ request()->get('location')}}">
             <input type="submit" value="Search">
         </form>
 
