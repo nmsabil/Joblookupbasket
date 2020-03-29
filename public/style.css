@@ -63,10 +63,6 @@ button:hover {
     font-weight: 300;
 }
 
-.progress-bar {
-    background-color: #002c8f !important;
-}
-
 @media all and (max-width: 1200px) {
     header p {
         font-weight: 900;
