@@ -23,7 +23,7 @@ Route::get('send-user-to-job', 'SubscribeController@sendUserToJob');
 Route::group(['prefix' => 'admin'], function(){
     Route::get('login', 'AdminController@loginView')->name('admin.login');
     Route::post('login', 'AdminController@login');
-    Route::get('show-all-users', 'AdminController@showAllUsersView');
+    Route::get('show-users/{searchType}', 'AdminController@showAllUsersView')->name('show.users');
 
     Route::get('prepare-jobs-for-user/{userId}', 'AdminController@prepareJobsForUserView')->name('prepare.jobs.for.user');
 });

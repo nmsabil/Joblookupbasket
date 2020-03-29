@@ -23,8 +23,15 @@ class AdminController extends Controller {
         }
     }
 
-    public function showAllUsersView() {
-        $users = Subscriber::all();
+    public function showAllUsersView($searchType) {
+        if($searchType == 'all') {
+            $users = Subscriber::all();
+        }
+
+        if($searchType == 'eligible') {
+            $users = Subscriber::where('subscribed', 1)->where('email_verification_token', '')->whereDate('last_email_sent', '<', now()->today());
+        }
+
         return view('admin.show_all_users', ['users' => $users]);
     }
 
