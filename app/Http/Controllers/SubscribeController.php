@@ -119,7 +119,8 @@ class SubscribeController extends Controller {
                 'email' => session()->get('email'),
                 'name' => session()->get('name'),
                 'email_verification_token' => $verificationToken,
-                'last_email_sent' => now()->subDay(1)->toDateTimeString()
+                'last_email_sent' => now()->subDay(1)->toDateTimeString(),
+                'direct_login_token' => \Str::random(50)
             ]);
 
             $subscribedEmail = session()->get('email');
@@ -141,15 +142,21 @@ class SubscribeController extends Controller {
 
     public function verifyEmail() {
         $token = request()->get('token');
-        $foundToken = Subscriber::where('verification_token', $token)->first();
-        if($foundToken) {
-            // verify email
+        $foundToken = Subscriber::where('email_verification_token', $token);
+        if($foundToken->first()) {
+            $foundToken->update(['email_verification_token' => '']);
+            return view('email_verified');
         } else {
-            // token doesnt exist..
+            \Log::info('invalid email token'. $token);
+            abort(404);
         }
     }
 
     public function subscribedView() {
         return view('subscribed');
+    }
+
+    public function emailTemplatePreview() {
+        return new SendEmailVerification('sami', 123456);
     }
 }

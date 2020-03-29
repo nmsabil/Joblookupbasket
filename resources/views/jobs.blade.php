@@ -1,7 +1,5 @@
 @extends('layout')
     @section('content')
-        <img src="/img/joblookupbasket.png">
-
         <form method="GET" action="/">
             <input name="description"> <br>
             <input name="location">

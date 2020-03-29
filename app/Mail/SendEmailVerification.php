@@ -20,6 +20,6 @@ class SendEmailVerification extends Mailable
     }
 
     public function build() {
-        return $this->from('jobs@joblookupbasket.com')->view('view.name');
+        return $this->from('jobs@joblookupbasket.com')->view('email_verification');
     }
 }

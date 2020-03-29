@@ -15,3 +15,5 @@ Route::get('subscribed', 'SubscribeController@subscribedView');
 Route::get('verify-email', 'SubscribeController@verifyEmail');
 
 Route::get('/', 'JobSearchController@jobs');
+
+Route::get('email-template-preview', 'SubscribeController@emailTemplatePreview');

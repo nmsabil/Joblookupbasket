@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="home_style.css" />
 
         <div class="container">
+            <img src="/img/joblookupbasket.png">
             @yield('content')
         </div>
 
