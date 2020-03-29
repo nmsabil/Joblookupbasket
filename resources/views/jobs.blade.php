@@ -10,7 +10,8 @@
 
         @foreach($jobs as $job)
             <a onmousedown="{{$job->onmousedown}}" href="{{$job->url}}">{{$job->title}}</a> <br>
-            {{ $job->location }}
+            <p>Location:{{ $job->location }}</p>
+            <p>Salary:{{ $job->salary }}</p>
             <p>{!! substr($job->snippet, 0, 200) !!}...</p>
         @endforeach
 

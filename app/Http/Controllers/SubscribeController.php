@@ -119,7 +119,8 @@ class SubscribeController extends Controller {
                 'name' => session()->get('name'),
                 'email_verification_token' => $verificationToken,
                 'last_email_sent' => now()->subDay(1)->toDateTimeString(),
-                'direct_login_token' => \Str::random(50)
+                'direct_login_token' => \Str::random(50),
+                'subscribed' => 1
             ]);
 
             $subscribedEmail = session()->get('email');

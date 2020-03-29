@@ -17,6 +17,7 @@ class CreateSubscribersTable extends Migration
             $table->dateTime('last_email_sent');
             $table->string('email_verification_token')->nullable();
             $table->string('direct_login_token');
+            $table->boolean('subscribed')->nullable();
 
             $table->timestamps();
         });

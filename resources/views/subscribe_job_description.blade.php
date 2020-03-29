@@ -9,8 +9,7 @@
                     class="logo pt-2"
                     />
                     <p class="text-dark mb-0">
-                    What job you're looking for? <br> <i>We will handpick those job
-                    for you.</i>
+                        What job you're looking for? <br> <i>We will handpick those job for you.</i>
                     </p>
                     </header>
 
@@ -30,8 +29,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                <input
-                                name="jobLocation" value="{{ session()->get('jobLocation') }}"
+                                <input name="jobLocation" value="{{ session()->get('jobLocation') }}"
 
                                 type="location"
                                 class="form-control"
@@ -44,17 +42,11 @@
                                 </div>
 
 
-                                <button
-                                type="submit"
-                                class="text-light w-100 rounded-pill mt-2"
-                                value="Next"
-                                >
-                                Next
-                                </button>
+                                <button type="submit" class="text-light w-100 rounded-pill mt-2" value="Next"> Next </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-    @endsection 
+    @endsection

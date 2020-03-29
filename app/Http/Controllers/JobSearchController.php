@@ -10,7 +10,8 @@ class JobSearchController extends Controller {
     private $jobDescription;
     private $location;
     private $publisher;
-    
+    private $salaryMin;
+
     public function __construct(GuzzleClient $guzzleClient) {
         $this->guzzleClient = $guzzleClient;
         $this->jobDescription = request()->get('description');
@@ -19,11 +20,14 @@ class JobSearchController extends Controller {
         $this->baseUri = 'https://uk.whatjobs.com/api/v1/jobs.json';
         $this->snippet = 'full';
         $this->page = request()->get('page');
+        $this->salaryMin = 1;
     }
 
 
     public function jobs() {
-        $uri = $this->baseUri . '?keyword='. $this->jobDescription . '&location='.$this->location . '&snippet='. $this->snippet. '&publisher='. $this->publisher . '&page='. $this->page;
+        $uri = $this->baseUri . '?keyword='. $this->jobDescription
+        . '&location='.$this->location . '&snippet='. $this->snippet. '&publisher='. $this->publisher
+        . '&page='. $this->page . '&salary_from='.$this->salaryMin;
 
         try {
             $response = $this->guzzleClient->request('GET', $uri);

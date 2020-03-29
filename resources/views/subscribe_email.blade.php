@@ -18,18 +18,19 @@
                 <div class="card-body pt-0">
                 <form method="POST" action="/subscribe-email">
                     <div class="form-group">
-                    <input 
+                    <input
                     name="email" value="{{ session()->get('email') }}"
                         type="email"
                         class="form-control"
                         id="email"
                         placeholder="Enter you email"
-                        
+                        required
+
                     />
                     {{ session()->get('emailError') }}
                     {{ csrf_field() }}
                     </div>
-                    
+
 
                     <button type="submit" value="Next" class="text-light w-100 rounded-pill">
                     Subscribe
