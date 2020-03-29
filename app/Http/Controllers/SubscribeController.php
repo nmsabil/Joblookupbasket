@@ -110,7 +110,6 @@ class SubscribeController extends Controller {
         session(['email' => $this->emailInput]);
 
         if(session()->get('name') and session()->get('email') and session()->get('jobDescription')) {
-
             $verificationToken = \Str::random(50);
 
             Subscriber::create([
@@ -119,19 +118,21 @@ class SubscribeController extends Controller {
                 'email' => session()->get('email'),
                 'name' => session()->get('name'),
                 'email_verification_token' => $verificationToken,
-                'last_email_sent' => now()->subDay(1)->toDateTimeString()
+                'last_email_sent' => now()->subDay(1)->toDateTimeString(),
+                'direct_login_token' => \Str::random(50)
             ]);
+
+            $subscribedEmail = session()->get('email');
+            $name = session()->get('name');
 
             session()->forget('jobDescription');
             session()->forget('jobLocation');
-            session()->forget('email');
             session()->forget('name');
+            session()->forget('email');
 
-            Mail::to(session()->get('email'))->send(new SendEmailVerification(session()->get('name'), $verificationToken));
+            Mail::to($subscribedEmail)->send(new SendEmailVerification($name, $verificationToken));
 
-            // Send email confirmation
-
-            return redirect()->to('/subscribed');
+            return redirect()->to('/subscribed?email=' . $subscribedEmail);
         } else {
             \Log::info(session()->all());
             abort(404);
@@ -140,15 +141,28 @@ class SubscribeController extends Controller {
 
     public function verifyEmail() {
         $token = request()->get('token');
-        $foundToken = Subscriber::where('verification_token', $token)->first();
-        if($foundToken) {
-            // verify email
+        $foundToken = Subscriber::where('email_verification_token', $token);
+        if($foundToken->first()) {
+            $foundToken->update(['email_verification_token' => '']);
+            return view('email_verified');
         } else {
-            // token doesnt exist..
+            \Log::info('invalid email token'. $token);
+            abort(404);
         }
     }
 
     public function subscribedView() {
         return view('subscribed');
+    }
+
+    public function emailTemplatePreview() {
+        return new SendEmailVerification('sami', 123456);
+    }
+
+    public function sendUserToJob() {
+        $clientUrlInfo = request()->get('clientUrl');
+        $redirectTo = 'http://uk.whatjobs.com/'. $clientUrlInfo;
+
+        return redirect()->to($redirectTo);
     }
 }

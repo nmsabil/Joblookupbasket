@@ -15,7 +15,8 @@ class CreateSubscribersTable extends Migration
             $table->string('job_description');
             $table->string('job_location')->nullable();
             $table->dateTime('last_email_sent');
-            $table->string('email_verification_token');
+            $table->string('email_verification_token')->nullable();
+            $table->string('direct_login_token');
 
             $table->timestamps();
         });
