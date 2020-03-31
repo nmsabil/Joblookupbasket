@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email template</title>
+                <style>
+            @font-face {
+            font-family: 'Ubuntu';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(https://fonts.gstatic.com/s/ubuntu/v14/4iCs6KVjbNBYlgo6ew.woff) format('woff');
+            }
+            @font-face {
+            font-family: 'Ubuntu';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(https://fonts.gstatic.com/s/ubuntu/v14/4iCv6KVjbNBYlgoCxCvTtA.woff) format('woff');
+            }
+
+                </style>
 </head>
-<body style="background-color: #E0E0E0;">
+<body style="margin:0; margin-top: 30px; background-color: #E0E0E0; font-family:'Ubuntu', 'Verdana', sans-serif;">
 <table style="margin-left:auto; margin-right:auto; text-align:center; background-color: #fff; padding:40px">
     <tr>
         <td><img src="/img/joblookupbasket.png"> <td>
