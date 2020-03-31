@@ -38,9 +38,7 @@
         crossorigin="anonymous"
         ></script>
 
-
-    <script type="text/javascript" src="http://uk.whatjobs.com/js/pub/tracking.js?publisher=1145&channel=&source=feed"></script>
-    
+        <script type="text/javascript" src="http://uk.whatjobs.com/js/pub/tracking.js?publisher=1145&channel=&source=feed"></script>
     </body>
 </html>
 
