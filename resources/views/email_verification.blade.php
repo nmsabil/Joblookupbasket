@@ -20,6 +20,14 @@
             src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(https://fonts.gstatic.com/s/ubuntu/v14/4iCv6KVjbNBYlgoCxCvTtA.woff) format('woff');
             }
 
+            button{
+                background-color: #20469C;
+            }
+
+            button:hover{
+                background-color: #183370;
+            }
+
                 </style>
 </head>
 <body style="margin:0; margin-top: 30px; background-color: #E0E0E0; font-family:'Ubuntu', 'Verdana', sans-serif;">
@@ -41,7 +49,7 @@
     </tr>
 
     <tr> 
-        <td> <a href="/verify-email?token={{ $verificationToken }}"><button style="padding:20px 100px; border-radius: 15px; background-color: #20469C; color: #fff; border: none;"><b>Verify My Email</b></button></a> </td>
+        <td> <a href="/verify-email?token={{ $verificationToken }}"><button style="padding:20px 100px; border-radius: 15px; color: #fff; border: none; cursor: pointer;"><b>Verify My Email</b></button></a> </td>
     </tr>
 
     <tr > 
