@@ -45,4 +45,10 @@ class AdminController extends Controller {
 
         return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user]);
     }
+
+    public function sendJobsEmail() {
+        $jobs = json_decode(request()->input('jobsToSend'));
+// send email
+
+    }
 }

@@ -12,7 +12,9 @@
             />
 
         <link rel="stylesheet" href="home_style.css" />
+    </head>
 
+    <body>
         <div class="container">
             <img src="/img/joblookupbasket.png">
             @yield('content')
@@ -35,6 +37,8 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"
         ></script>
+
+        <script type="text/javascript" src="http://uk.whatjobs.com/js/pub/tracking.js?publisher=1145&channel=&source=feed"></script>
     </body>
 </html>
 

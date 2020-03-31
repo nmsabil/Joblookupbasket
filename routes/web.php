@@ -26,4 +26,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('show-users/{searchType}', 'AdminController@showAllUsersView')->name('show.users');
 
     Route::get('prepare-jobs-for-user/{userId}', 'AdminController@prepareJobsForUserView')->name('prepare.jobs.for.user');
+
+    Route::post('send-jobs-email/{userId}', 'AdminController@sendJobsEmail')->name('admin.send.jobs.email');
 });
