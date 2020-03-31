@@ -3,8 +3,10 @@
 use App\Subscriber;
 use Illuminate\Support\Facades\Auth;
 use App\Classes\JobSearch;
+use App\Mail\SendJobs;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller {
     private $jobSearch;
@@ -46,9 +48,14 @@ class AdminController extends Controller {
         return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user]);
     }
 
-    public function sendJobsEmail() {
-        $jobs = json_decode(request()->input('jobsToSend'));
-// send email
+    public function sendJobsEmail($userId) {
+        $jobs = request()->input('jobsToSend');
+        $user = Subscriber::find($userId);
+        
+        Mail::to($user->email)->send(new SendJobs($user, $jobs));
+        return new SendJobs($user, $jobs);
+
+    
 
     }
 }
