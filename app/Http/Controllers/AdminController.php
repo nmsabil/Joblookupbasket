@@ -46,15 +46,21 @@ class AdminController extends Controller {
         $this->jobSearch->setUniqueId($user->email);
 
         $jobs = $this->jobSearch->getJobs();
+        
+        $sendEmail = $this->sendEmailOrNot($user);
 
-        return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user]);
+        return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user, 'sendEmail' => $sendEmail]);
     }
 
     public function sendJobsEmail($userId) {
         $jobs = request()->input('jobsToSend');
         $user = Subscriber::find($userId);
 
-        Mail::to($user->email)->send(new SendJobs($user, $jobs));
+            Mail::to($user->email)->send(new SendJobs($user, $jobs));
         return new SendJobs($user, $jobs);
+    }
+
+    private function sendEmailOrNot($user) {
+        $sendEmail = $user->subscribed == 1 and $user->email_verification_token == '';
     }
 }

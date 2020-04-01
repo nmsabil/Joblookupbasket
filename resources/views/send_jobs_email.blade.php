@@ -8,5 +8,6 @@
     @endphp
 
     <p><a href="{{ $job->url}}"> {{$job->title}} </a></p>
-    <p>{{$job->salary</p>
+    <p>{{ strip_tags($job->snippet) }}</p>
+    <p>{{$job->salary}}</p>
 @endforeach
