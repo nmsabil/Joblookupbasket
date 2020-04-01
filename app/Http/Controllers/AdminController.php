@@ -41,6 +41,8 @@ class AdminController extends Controller {
         $user = Subscriber::find($userId);
         $this->jobSearch->setJobDescription($user->job_description);
         $this->jobSearch->setJobLocation($user->job_location);
+        $this->jobSearch->setJobLimit(50);
+        $this->jobSearch->setSalaryFrom();
         $this->jobSearch->setUniqueId($user->email);
 
         $jobs = $this->jobSearch->getJobs();
@@ -51,11 +53,8 @@ class AdminController extends Controller {
     public function sendJobsEmail($userId) {
         $jobs = request()->input('jobsToSend');
         $user = Subscriber::find($userId);
-        
+
         Mail::to($user->email)->send(new SendJobs($user, $jobs));
         return new SendJobs($user, $jobs);
-
-    
-
     }
 }

@@ -6,11 +6,24 @@
 
 <form method="POST" action="{{ route('admin.send.jobs.email', $user->id) }}">
     @foreach($jobs as $job)
-        <input type="checkbox" name="jobsToSend[]" value="<?php echo htmlspecialchars(json_encode($job)) ?>">
+        <div class="box">
+            <input id="job_title" type="checkbox" name="jobsToSend[]" value="<?php echo htmlspecialchars(json_encode($job)) ?>">
+            <label for="job_title"> {{ $job->title }} </span>
+
+            <p> {{ $job->location }} </p>
+            <p>{{$job->snippet}}</p>
+        </div>
     @endforeach
     {{ csrf_field() }}
     <button type="submit">Send </button>
 </form>
+
+<style>
+    .box {
+        padding:10px;
+        border-bottom:1px solid black;
+    }
+</style>
 
 <script
         src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

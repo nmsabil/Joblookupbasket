@@ -12,6 +12,8 @@ class JobSearchController extends Controller {
 
         $this->jobSearch->setJobDescription(request()->get('jobDescription'));
         $this->jobSearch->setJobLocation(request()->get('location'));
+        $this->jobSearch->setJobLimit(25);
+        $this->jobSearch->setSalaryFrom(1);
         $this->jobSearch->setJobPage(request()->get('page'));
     }
 

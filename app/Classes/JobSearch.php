@@ -11,14 +11,14 @@ class JobSearch {
     private $jobSearch;
     private $uniqueId;
     private $searchType;
+    private $jobLimit = 25;
+    private $salaryFrom;
 
     public function __construct(GuzzleClient $guzzleClient) {
         $this->guzzleClient = $guzzleClient;
 
         $this->publisher = 1145;
         $this->baseUri = 'https://uk.whatjobs.com/api/v1/jobs.json';
-        $this->snippet = 'full';
-        $this->salaryMin = 1;
     }
 
     public function setJobDescription($description) {
@@ -37,15 +37,23 @@ class JobSearch {
         $this->uniqueId = $id;
     }
 
+    public function setJobLimit($limit) {
+        $this->jobLimit = $limit;
+    }
+
+    public function setSalaryFrom($from = null) {
+        $this->salaryFrom = $from;
+    }
+
     public function getJobs() {
         $uri = $this->baseUri;
         $uri .= '?keyword='. $this->jobDescription;
         $uri .= '&location='.$this->location;
         $uri .= '&publisher='. $this->publisher;
-        $uri .= '&salary_from='.$this->salaryMin;
+        $uri .= '&salary_from='.$this->salaryFrom;
+        $uri .= '&limit='.$this->jobLimit;
 
         if($this->uniqueId == null) {
-            $uri .= '&snippet='. $this->snippet;
             $uri .= '&page='. $this->page;
         } else {
             $uri .= '&unique_id='. $this->uniqueId;
