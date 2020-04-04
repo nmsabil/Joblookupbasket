@@ -10,7 +10,7 @@ class CreateFetchedJobsTable extends Migration {
             $table->id();
             $table->string('subscriber_id');
 
-            $table->string('url');
+            $table->string('url', 500);
             $table->string('title');
             $table->string('postcode')->nullable();
             $table->string('job_type')->nullable();

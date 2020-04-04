@@ -11,7 +11,7 @@ use App\FetchedJob;
 class JobsFetchConsumer implements ShouldQueue {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $subscribers;
+    protected $subscriber;
 
     public function __construct($subscriber) {
         $this->subscriber = $subscriber;
@@ -27,26 +27,28 @@ class JobsFetchConsumer implements ShouldQueue {
 
             // Removing old jobs..
             foreach($existingJobs as $job) {
-                if($job->updated_at < today()) {
+                if($job->created_at < today()) {
                     FetchedJob::where('id', $job->id)->delete($job);
                 }
             }
-        } else {
-            $this->jobSearch->setJobDescription($this->subscriber->job_description);
-            $this->jobSearch->setJobLocation($this->subscriber->job_location);
-            $this->jobSearch->setJobLimit(50);
-            $this->jobSearch->setUniqueId($this->subscriber->email);
-
-            $jobs = $this->jobSearch->getJobs();
-
-            if(count($jobs) > 0) {
-                // Store jobs in DB
-            }
-
-            // Set updated_at to today
-
-            // Means we have fetched all jobs for this use we possibly could.
-            return false;
         }
+
+        $jobSearch->setJobDescription($this->subscriber->job_description);
+        $jobSearch->setJobLocation($this->subscriber->job_location);
+        $jobSearch->setJobLimit(50);
+        $jobSearch->setUniqueId($this->subscriber->email);
+
+        $jobs = $jobSearch->getJobs();
+
+        if(count($jobs) > 0) {
+            foreach($jobs as $job) {
+                $job = json_decode(json_encode($job), true);
+                $job['subscriber_id'] = $this->subscriber->id;
+                FetchedJob::create($job);
+            }
+        }
+
+        // Means we have fetched all jobs for this use we possibly could.
+        return false;
     }
 }

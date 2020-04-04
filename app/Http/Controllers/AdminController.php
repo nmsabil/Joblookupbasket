@@ -7,6 +7,7 @@ use App\Mail\SendJobs;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\FetchedJob;
 
 class AdminController extends Controller {
     private $jobSearch;
