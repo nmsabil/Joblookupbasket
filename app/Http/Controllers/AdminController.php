@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 class AdminController extends Controller {
     private $jobSearch;
 
-    public function __construct(JobSearch $jobSearch) {
+    public function __construct(JobSearch $jobSearch) { 
         $this->jobSearch = $jobSearch;
     }
 
@@ -21,7 +21,7 @@ class AdminController extends Controller {
 
     public function login() {
         if(Auth::attempt(['email' => request()->input('email'), 'password' => request()->input('password')])) {
-            return redirect()->intended('admin/show-all-users');
+            return redirect()->intended('admin/show-users/all');
         }
     }
 
@@ -31,7 +31,8 @@ class AdminController extends Controller {
         }
 
         if($searchType == 'eligible') {
-            $users = Subscriber::where('subscribed', 1)->where('email_verification_token', '')->whereDate('last_email_sent', '<', now()->today());
+            $users = Subscriber::where('subscribed', 1)->where('email_verification_token', '')->whereDate('last_email_sent', '<', now()->today())
+            ->get();
         }
 
         return view('admin.show_all_users', ['users' => $users]);
@@ -56,11 +57,14 @@ class AdminController extends Controller {
         $jobs = request()->input('jobsToSend');
         $user = Subscriber::find($userId);
 
-            Mail::to($user->email)->send(new SendJobs($user, $jobs));
-        return new SendJobs($user, $jobs);
+        $user->update(['last_email_sent' => now()]);
+
+        Mail::to($user->email)->send(new SendJobs($user, $jobs));
+        
+        return redirect()->to('admin/show-users/eligible');
     }
 
     private function sendEmailOrNot($user) {
-        $sendEmail = $user->subscribed == 1 and $user->email_verification_token == '';
+        return $user->subscribed == 1 and $user->email_verification_token == '';
     }
 }

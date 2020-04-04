@@ -16,25 +16,23 @@
         <h1 class="text-center w-100">Joblookupbasket | All Users </h1>
     </div>
         <div class="row">
-        <p> <a href="{{ route('show.users', 'all') }}">Show all users</a> </p>
+        <p> <a href="{{ route('show.users', 'all') }}">Show all users</a> </p> <br>
         <p> <a href="{{ route('show.users', 'eligible') }}">Show elieible users</a> </p>
             <div class="col-sm-12">
                 <table class="table table-bordered table-hover" id="myTable">
                     <thead >
-                        <td>Name</td>
-                        <td>Email</td>
-                        <td>Subscribed</td>
                         <td>Last Sent</td>
+                        <td> Description </td>
+                        <td> Location </td>
                         <td>Send Jobs</td>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
                         <tr >
-                            <td>  {{ $user->name }} </td>
-                            <td>   {{ $user->email }}</td>
-                            <td class="text-center">    {{ $user->subscribed }}</td>
-                            <td>     {{ $user->last_email_sent }}</td>
-                            <td>     <a class="btn btn-outline-primary h-50" href="{{ route('prepare.jobs.for.user', $user->id ) }}">Send job >></a></td>
+                            <td> {{ $user->last_email_sent }}</td>
+                            <td> {{ $user->job_description }}</td>
+                            <td> {{ $user->job_location }}</td>
+                            <td> <a class="btn btn-outline-primary h-50" href="{{ route('prepare.jobs.for.user', $user->id ) }}">Send</a></td>
                         </tr>
                         @endforeach
 
