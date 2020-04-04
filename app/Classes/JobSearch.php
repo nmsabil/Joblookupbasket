@@ -12,7 +12,7 @@ class JobSearch {
     private $uniqueId;
     private $searchType;
     private $jobLimit = 25;
-    private $salaryFrom;
+    private $salaryFrom = null;
 
     public function __construct(GuzzleClient $guzzleClient) {
         $this->guzzleClient = $guzzleClient;

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Mail;
 class AdminController extends Controller {
     private $jobSearch;
 
-    public function __construct(JobSearch $jobSearch) { 
+    public function __construct(JobSearch $jobSearch) {
         $this->jobSearch = $jobSearch;
     }
 
@@ -47,7 +47,7 @@ class AdminController extends Controller {
         $this->jobSearch->setUniqueId($user->email);
 
         $jobs = $this->jobSearch->getJobs();
-        
+
         $sendEmail = $this->sendEmailOrNot($user);
 
         return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user, 'sendEmail' => $sendEmail]);
@@ -60,7 +60,7 @@ class AdminController extends Controller {
         $user->update(['last_email_sent' => now()]);
 
         Mail::to($user->email)->send(new SendJobs($user, $jobs));
-        
+
         return redirect()->to('admin/show-users/eligible');
     }
 
