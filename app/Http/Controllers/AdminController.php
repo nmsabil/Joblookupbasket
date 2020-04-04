@@ -32,8 +32,7 @@ class AdminController extends Controller {
         }
 
         if($searchType == 'eligible') {
-            $users = Subscriber::where('subscribed', 1)->where('email_verification_token', '')->whereDate('last_email_sent', '<', now()->today())
-            ->get();
+            $users = Subscriber::getEligibleSubscribers(true);
         }
 
         return view('admin.show_all_users', ['users' => $users]);
@@ -41,31 +40,30 @@ class AdminController extends Controller {
 
     public function prepareJobsForUserView($userId) {
         $user = Subscriber::find($userId);
-        $this->jobSearch->setJobDescription($user->job_description);
-        $this->jobSearch->setJobLocation($user->job_location);
-        $this->jobSearch->setJobLimit(50);
-        $this->jobSearch->setSalaryFrom();
-        $this->jobSearch->setUniqueId($user->email);
+        // $this->jobSearch->setJobDescription($user->job_description);
+        // $this->jobSearch->setJobLocation($user->job_location);
+        // $this->jobSearch->setJobLimit(50);
+        // $this->jobSearch->setSalaryFrom();
+        // $this->jobSearch->setUniqueId($user->email);
 
-        $jobs = $this->jobSearch->getJobs();
+        // $jobs = $this->jobSearch->getJobs();
 
-        $sendEmail = $this->sendEmailOrNot($user);
+        $jobs = $user->fetchedJobs;
+
+        $sendEmail = $user->is_subscriber_eligible;
 
         return view('admin.prepare_jobs_for_user', ['jobs' => $jobs, 'user' => $user, 'sendEmail' => $sendEmail]);
     }
 
     public function sendJobsEmail($userId) {
-        $jobs = request()->input('jobsToSend');
-        $user = Subscriber::find($userId);
+        $jobIds = request()->input('jobIdsToSend');
+        $jobs = FetchedJob::whereIn('id', $jobIds)->get();
 
+        $user = Subscriber::find($userId);
         $user->update(['last_email_sent' => now()]);
 
         Mail::to($user->email)->send(new SendJobs($user, $jobs));
 
         return redirect()->to('admin/show-users/eligible');
-    }
-
-    private function sendEmailOrNot($user) {
-        return $user->subscribed == 1 and $user->email_verification_token == '';
     }
 }

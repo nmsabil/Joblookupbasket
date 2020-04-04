@@ -10,4 +10,18 @@ class Subscriber extends Model {
     public function fetchedJobs() {
         return $this->hasMany('App\FetchedJob');
     }
+
+    public static function getEligibleSubscribers($checkLastEmailSent = false) {
+        $query = self::where('subscribed', 1)->where('email_verification_token', '');
+
+        if($checkLastEmailSent == true) {
+            $query->whereDate('last_email_sent', '<', today());
+        }
+
+        return $query->get();
+    }
+
+    public function getIsSubscriberEligibleAttribute() {
+        return $this->subscribed == 1 and $this->email_verification_token == '' and $this->last_email_sent < today();
+    }
 }

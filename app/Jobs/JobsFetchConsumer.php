@@ -44,6 +44,7 @@ class JobsFetchConsumer implements ShouldQueue {
             foreach($jobs as $job) {
                 $job = json_decode(json_encode($job), true);
                 $job['subscriber_id'] = $this->subscriber->id;
+
                 FetchedJob::create($job);
             }
         }

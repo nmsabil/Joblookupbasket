@@ -14,7 +14,10 @@ class JobsProducer extends Command {
     }
 
     public function handle() {
-        $subscriber = Subscriber::find(1);
-        JobsFetchConsumer::dispatch($subscriber);
+        $subscribers = Subscriber::getEligibleSubscribers(false);
+
+        foreach($subscribers as $subscriber) {
+            JobsFetchConsumer::dispatch($subscriber);
+        }
     }
 }
