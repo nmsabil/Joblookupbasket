@@ -20,6 +20,9 @@ Route::get('email-template-preview', 'SubscribeController@emailTemplatePreview')
 
 Route::get('send-user-to-job', 'SubscribeController@sendUserToJob');
 
+Route::get('unsubscribe/{token}', 'SubscribeController@unsubscribe')->name('unsubscribe');
+Route::get('unsubscribed', 'SubscribeController@unsubscribedView');
+
 Route::get('admin/login', 'AdminController@loginView')->name('admin.login');
 Route::post('admin/login', 'AdminController@login');
 

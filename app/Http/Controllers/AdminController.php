@@ -60,9 +60,10 @@ class AdminController extends Controller {
         $jobs = FetchedJob::whereIn('id', $jobIds)->get();
 
         $user = Subscriber::find($userId);
-        $user->update(['last_email_sent' => now()]);
-        $user->fetchedJobs()->delete();
+        // $user->update(['last_email_sent' => now()]);
+        // $user->fetchedJobs()->delete();
 
+        return new SendJobs($user, $jobs);
         Mail::to($user->email)->send(new SendJobs($user, $jobs));
 
         return redirect()->to('admin/show-users/eligible');

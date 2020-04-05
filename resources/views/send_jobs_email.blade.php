@@ -1,5 +1,5 @@
 
-<img src="/img/joblookupbasket.com"/>
+<img src="/img/joblookupbasket.png"/>
 
 <p>Hey {{ $user->name }}, check out the jobs we've selected for you. </p>
 @foreach($jobs as $job)
@@ -11,3 +11,6 @@
     <p>{{ strip_tags($job->snippet) }}</p>
     <p>{{$job->salary}}</p>
 @endforeach
+
+
+If you're no longer interested in receiving the jobs by email you can unsubscribe by clicking this link. <a href="{{ route('unsubscribe', $user->unsubscription_token) }}">unsubsceribe</a>
