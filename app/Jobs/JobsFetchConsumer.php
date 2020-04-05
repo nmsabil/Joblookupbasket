@@ -41,15 +41,21 @@ class JobsFetchConsumer implements ShouldQueue {
         $jobs = $jobSearch->getJobs();
 
         if(count($jobs) > 0) {
-            foreach($jobs as $job) {
-                $job = json_decode(json_encode($job), true);
-                $job['subscriber_id'] = $this->subscriber->id;
+            $totalExistingJobs = count($this->subscriber->fetchedJobs);
 
-                FetchedJob::create($job);
+            foreach($jobs as $job) {
+                if($totalExistingJobs < 100) {
+                    $totalExistingJobs = $totalExistingJobs + 1;
+
+                    $job = json_decode(json_encode($job), true);
+                    $job['subscriber_id'] = $this->subscriber->id;
+
+                    FetchedJob::create($job);
+                }
             }
         }
 
-        // Means we have fetched all jobs for this use we possibly could.
+        // Means we have fetched all jobs for this user we possibly could.
         return false;
     }
 }

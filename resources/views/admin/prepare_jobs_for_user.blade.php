@@ -14,40 +14,47 @@
     </div>
 
     <div class="row">
-        <table id="jobs" class="table">
-            <form method="POST" action="{{ route('admin.send.jobs.email', $user->id) }}">
+        <form method="POST" action="{{ route('admin.send.jobs.email', $user->id) }}">
+            <table id="jobs" class="table table-bordered table-hover table-dashed">
                 <thead>
                     <tr> <td> Title </td> <td> Location </td> <td> Description </td> <td> Fetch Date </td></th>
                 </thead>
 
                 @foreach($jobs as $job)
-                <tr>
-                    <td>
-                        <label for="job_title_{{$job->id}}">
-                        <input id="job_title_{{$job->id}}" type="checkbox" name="jobIdsToSend[]" value="{{$job->id}}">
-                        {{ $job->title }}
-                        </label>
-                    </td>
+                    <tr>
+                        <td>
+                            <label for="job_title_{{$job->id}}">
+                            <input onclick="enableSendButton()" class="job_title" id="job_title_{{$job->id}}" type="checkbox" name="jobIdsToSend[]" value="{{$job->id}}">
+                            {{ $job->title }}
+                            </label>
+                        </td>
 
-                    <td> {{ $job->location }}  </td>
+                        <td> {{ $job->location }}  </td>
 
-                    <td> {{strip_tags($job->snippet)}} </td>
+                        <td> {{strip_tags($job->snippet)}} </td>
 
-                    <td> {{$job->created_at}} </td>
-                </tr>
-
+                        <td> {{$job->created_at}} </td>
+                    </tr>
                 @endforeach
-                {{ csrf_field() }}
-                <button type="submit">Send </button>
-            </form>
-        </table>
+                <button id="sendButton" type="submit" disabled>Send </button>
+            </table>
+            {{ csrf_field() }}
+        </form>
     </div>
 
     <script>
         $(document).ready( function () {
             $('#jobs').DataTable({
-                "pageLength" 100
+                "pageLength": 100
             });
         } );
+
+        function enableSendButton() {
+            if($('input[name="jobIdsToSend[]"]').is(':checked')) {
+                $('#sendButton').prop('disabled', false);
+            } else {
+                $('#sendButton').prop('disabled', true);
+            }
+        }
     </script>
 @endsection

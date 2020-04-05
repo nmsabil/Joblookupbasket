@@ -61,6 +61,7 @@ class AdminController extends Controller {
 
         $user = Subscriber::find($userId);
         $user->update(['last_email_sent' => now()]);
+        $user->fetchedJobs()->delete();
 
         Mail::to($user->email)->send(new SendJobs($user, $jobs));
 

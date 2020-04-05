@@ -14,7 +14,8 @@ class JobsProducer extends Command {
     }
 
     public function handle() {
-        $subscribers = Subscriber::getEligibleSubscribers(false);
+        $checkLastEmailSent = false;
+        $subscribers = Subscriber::getEligibleSubscribers($checkLastEmailSent);
 
         foreach($subscribers as $subscriber) {
             JobsFetchConsumer::dispatch($subscriber);
