@@ -63,6 +63,10 @@ button:hover {
     font-weight: 300;
 }
 
+.percentage {
+    font-size: 1.2rem;
+}
+
 @media all and (max-width: 1200px) {
     header p {
         font-weight: 900;
@@ -121,6 +125,9 @@ button:hover {
     }
     .logo {
         width: 180px;
+    }
+    .percentage {
+        font-size: 0.9rem;
     }
 }
 
