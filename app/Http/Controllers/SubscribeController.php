@@ -120,7 +120,8 @@ class SubscribeController extends Controller {
                 'email_verification_token' => $verificationToken,
                 'last_email_sent' => now()->subDay(1)->toDateTimeString(),
                 'direct_login_token' => \Str::random(50),
-                'subscribed' => 1
+                'subscribed' => 1,
+                'unsubscription_token' => \Str::random(50)
             ]);
 
             $subscribedEmail = session()->get('email');
@@ -165,5 +166,17 @@ class SubscribeController extends Controller {
         $redirectTo = 'http://uk.whatjobs.com/'. $clientUrlInfo;
 
         return redirect()->to($redirectTo);
+    }
+
+    public function unsubscribe($token) {
+        $subscriber = Subscriber::where('unsubscription_token', $token);
+
+        if($subscriber->first() == null) {
+            return 'This page has expired';
+        }
+
+        $subscriber->update(['subscribed' => 0]);
+
+        return view('unsubscribed');
     }
 }

@@ -1,19 +1,60 @@
-<p> Description: {{ $user->job_description}} </p>
-<p> Location: {{ $user->job_location }} </p>
-<p> Subscribed? {{ $user->subscribed == 1 ? 'Yes' : 'Yes' }} </p>
-<p> Activated? {{ $user->email_verification_token == '' ? 'Yes' : 'No' }} </p>
+@extends('admin.layout')
 
+@section('content')
+    <div class="row">
+        <div class="col-md-10">
+            <h3> {{ $user->job_description}} <h3>
+            <h3> {{ $user->job_location }} </h3>
+            <p> <b> Send email: </b> {{ $sendEmail ? 'Yes' : 'NO'}} <br> <b>Last Sent:</b> {{ $user->last_email_sent}}</p>
+        </div>
 
-<form method="POST" action="{{ route('admin.send.jobs.email', $user->id) }}">
-    @foreach($jobs as $job)
-        <input type="checkbox" name="jobsToSend[]" value="<?php echo htmlspecialchars(json_encode($job)) ?>">
-    @endforeach
-    {{ csrf_field() }}
-    <button type="submit">Send </button>
-</form>
+        <div class="col-md-2">
+            <p>Now: {{ now() }}</p>
+        </div>
+    </div>
 
-<script
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"
-        ></script>
+    <div class="row">
+        <form method="POST" action="{{ route('admin.send.jobs.email', $user->id) }}">
+            <table id="jobs" class="table table-bordered table-hover table-dashed">
+                <thead>
+                    <tr> <td> Title </td> <td> Location </td> <td> Description </td> <td> Fetch Date </td></th>
+                </thead>
+
+                @foreach($jobs as $job)
+                    <tr>
+                        <td>
+                            <label for="job_title_{{$job->id}}">
+                            <input onclick="enableSendButton()" class="job_title" id="job_title_{{$job->id}}" type="checkbox" name="jobIdsToSend[]" value="{{$job->id}}">
+                            {{ $job->title }}
+                            </label>
+                        </td>
+
+                        <td> {{ $job->location }}  </td>
+
+                        <td> {{strip_tags($job->snippet)}} </td>
+
+                        <td> {{$job->created_at}} </td>
+                    </tr>
+                @endforeach
+                <button id="sendButton" type="submit" disabled>Send </button>
+            </table>
+            {{ csrf_field() }}
+        </form>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#jobs').DataTable({
+                "pageLength": 100
+            });
+        } );
+
+        function enableSendButton() {
+            if($('input[name="jobIdsToSend[]"]').is(':checked')) {
+                $('#sendButton').prop('disabled', false);
+            } else {
+                $('#sendButton').prop('disabled', true);
+            }
+        }
+    </script>
+@endsection

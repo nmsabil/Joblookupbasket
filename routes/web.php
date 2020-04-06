@@ -20,9 +20,14 @@ Route::get('email-template-preview', 'SubscribeController@emailTemplatePreview')
 
 Route::get('send-user-to-job', 'SubscribeController@sendUserToJob');
 
-Route::group(['prefix' => 'admin'], function(){
-    Route::get('login', 'AdminController@loginView')->name('admin.login');
-    Route::post('login', 'AdminController@login');
+Route::get('unsubscribe/{token}', 'SubscribeController@unsubscribe')->name('unsubscribe');
+Route::get('unsubscribed', 'SubscribeController@unsubscribedView');
+
+Route::get('admin/login', 'AdminController@loginView')->name('admin.login');
+Route::post('admin/login', 'AdminController@login');
+
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin.login'], function(){
     Route::get('show-users/{searchType}', 'AdminController@showAllUsersView')->name('show.users');
 
     Route::get('prepare-jobs-for-user/{userId}', 'AdminController@prepareJobsForUserView')->name('prepare.jobs.for.user');
